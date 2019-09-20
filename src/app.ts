@@ -13,6 +13,7 @@ const MongoStore = mongo(session);
 
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
+import * as gameController from "./controllers/game";
 
 // Create Express server
 const app = express();
@@ -60,5 +61,12 @@ app.use(
 // });
 
 app.get("/", homeController.index);
+
+// API Endpoints
+app.get("/games", gameController.allGames);
+app.get("/game/:id", gameController.getGame);
+app.post("/game", gameController.addGame);
+// app.put("/game/:id", gameController.updategame);
+// app.delete("/game/:id", gameController.deletegame);
 
 export default app;
