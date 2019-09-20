@@ -15,8 +15,6 @@ tmp
 
 dist
 
-client
-
 # Build
 public/css/main.css
 
