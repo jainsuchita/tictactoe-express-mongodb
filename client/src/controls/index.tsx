@@ -4,5 +4,16 @@ import Menu from "./Menu/Menu";
 import Appbar from "./Appbar/Appbar";
 import PlayerInfo from "./PlayerInfo/PlayerInfo";
 import GameOverDialog from "./GameOverDialog/GameOverDialog";
+import HistoryDialog from "./HistoryDialog/HistoryDialog";
+import Table from "./Table/Table";
 
-export { Square, Board, Menu, Appbar, PlayerInfo, GameOverDialog };
+export {
+  Square,
+  Board,
+  Menu,
+  Appbar,
+  PlayerInfo,
+  GameOverDialog,
+  HistoryDialog,
+  Table
+};

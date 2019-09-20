@@ -4,6 +4,7 @@ import session from "express-session";
 import bodyParser from "body-parser";
 import mongo from "connect-mongo";
 import flash from "express-flash";
+import cors from "cors";
 import path from "path";
 import mongoose from "mongoose";
 import bluebird from "bluebird";
@@ -51,6 +52,7 @@ app.use(
   })
 );
 app.use(flash());
+app.use(cors());
 
 app.use(
   express.static(path.join(__dirname, "../client/build"), {

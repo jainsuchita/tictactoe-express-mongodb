@@ -8,7 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import GameIcon from "@material-ui/icons/Games";
 import NewIcon from "@material-ui/icons/FiberNew";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import classnames from "classnames";
+// import classnames from "classnames";
 import {
   makeStyles,
   useTheme,
@@ -31,9 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth
-    },
-    listItem: {
-      cursor: "auto"
     }
   })
 );
@@ -61,10 +58,9 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
       <div className={classes.toolbar} />
       {/* <Divider /> */}
       <List>
-        {["Start New Game", "Score history"].map((text, index) => (
+        {["Start New Game", "Game history"].map((text, index) => (
           <React.Fragment key={index}>
             <ListItem
-              className={classnames(index === 1 && classes.listItem)}
               button
               key={text}
               onClick={() => handleMenuItemClick(index)}
