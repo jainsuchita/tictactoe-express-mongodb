@@ -24,3 +24,9 @@ npm run start # to start the app
 ```
 
 - Open localhost:3000 to run the app in browser
+
+## Run using Docker
+
+```bash
+sudo docker-compose up
+```

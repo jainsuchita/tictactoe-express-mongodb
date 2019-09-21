@@ -10,7 +10,7 @@ import { newGame } from "@state/actions";
 import { ScoreHistoryType, IAppState } from "@models";
 
 // const baseURL = process.env.REACT_APP_API_URL;
-const baseURL = "http://localhost:3000";
+// const baseURL = "http://localhost:3000";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,7 +82,7 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
 
   const showGameHistoryDialog = async () => {
     try {
-      const res = await Axios.get(baseURL + "/game");
+      const res = await Axios.get("http://localhost:3000/game");
       // setResponse(res.data);
       buildDataRows(res.data);
     } catch (err) {

@@ -3,18 +3,17 @@ import path from "path";
 
 // Database
 import mongoose from "mongoose";
-import MongoClient from "mongodb";
 import { MONGODB_URI } from "./util/secrets";
 
 // Middlewares
 import bodyParser from "body-parser";
-import compression, { filter } from "compression"; // compresses requests
+import compression from "compression"; // compresses requests
 import flash from "express-flash";
 import cors from "cors";
 
 // Controllers (route handlers)
 import Routes from "./routes";
-import Counter, { CounterSchema } from "./models/Counter";
+import { CounterSchema } from "./models/Counter";
 
 class App {
   public app: express.Express = express();

@@ -1,0 +1,18 @@
+version: "3"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+  app:
+    container_name: app
+    restart: always
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    environment:
+      - MONGODB_URI_LOCAL=mongodb://mongo:27017/games
+      - MONGODB_URI=mongodb://mongo:27017/games
