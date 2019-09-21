@@ -9,7 +9,8 @@ import { BoardType } from "@models";
 import { isWinner, isDraw } from "@utils";
 import axios from "axios";
 
-const baseURL = process.env.REACT_APP_API_URL;
+// const baseURL = process.env.REACT_APP_API_URL;
+const baseURL = "http://localhost:3000";
 /**
  * When a player plays a turn we need to mark that spot on the board.  We then need to
  * switch to the next player

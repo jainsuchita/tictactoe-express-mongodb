@@ -1,13 +1,5 @@
 ## Classic Tic-Tac-Toe game
 
-## create .env file
-
-add following content
-
-```bash
-REACT_APP_API_URL=<server_host_api>
-```
-
 ## Installation
 
 ```bash

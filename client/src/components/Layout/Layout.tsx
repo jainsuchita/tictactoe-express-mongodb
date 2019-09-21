@@ -1,15 +1,16 @@
 import * as React from "react";
+import Axios from "axios";
 import { connect } from "react-redux";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import { Appbar, Menu, HistoryDialog, Table } from "@controls";
-
 import { newGame } from "@state/actions";
-import Axios from "axios";
+import { ScoreHistoryType, IAppState } from "@models";
 
-const baseURL = process.env.REACT_APP_API_URL;
+// const baseURL = process.env.REACT_APP_API_URL;
+const baseURL = "http://localhost:3000";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ILayoutProps {
   children?: React.ReactNode;
-  // scores: ScoreHistoryType;
+  scores: ScoreHistoryType;
   newGame: () => void;
 }
 
@@ -37,7 +38,7 @@ interface IRows {
 }
 
 const Layout: React.FunctionComponent = (props: ILayoutProps) => {
-  const { children, newGame } = props;
+  const { children, newGame, scores } = props;
 
   const classes = useStyles();
 
@@ -127,7 +128,7 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         handleMenuItemClick={handleMenuItemClick}
-        // scores={scores}
+        scores={scores}
       />
 
       <main className={classes.content}>
@@ -144,17 +145,17 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
   );
 };
 
-// const mapStateToProps = (state: IAppState) => {
-//   const { scores } = state;
+const mapStateToProps = (state: IAppState) => {
+  const { scores } = state;
 
-//   return {
-//     scores
-//   };
-// };
+  return {
+    scores
+  };
+};
 
 const mapDispatchToProps = { newGame };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Layout);
