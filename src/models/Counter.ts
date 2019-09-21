@@ -11,8 +11,9 @@ export const CounterSchema = new Schema({
   seq: { type: Number, default: 0 }
 });
 
+const Counter = mongoose.model<ICounterDocument>("counter", CounterSchema);
+
 // let newItem1 = new Counter({ _id: "gameId", seq: 0 });
 // newItem1.save();
 
-const Counter = mongoose.model<ICounterDocument>("counter", CounterSchema);
 export default Counter;

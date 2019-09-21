@@ -3,16 +3,18 @@ import path from "path";
 
 // Database
 import mongoose from "mongoose";
+import MongoClient from "mongodb";
 import { MONGODB_URI } from "./util/secrets";
 
 // Middlewares
 import bodyParser from "body-parser";
-import compression from "compression"; // compresses requests
+import compression, { filter } from "compression"; // compresses requests
 import flash from "express-flash";
 import cors from "cors";
 
 // Controllers (route handlers)
 import Routes from "./routes";
+import Counter, { CounterSchema } from "./models/Counter";
 
 class App {
   public app: express.Express = express();
@@ -61,6 +63,23 @@ class App {
           err
         );
         // process.exit();
+      });
+
+    this.intilizeDatabase();
+  }
+
+  private intilizeDatabase() {
+    const Counter = mongoose.model("counter", CounterSchema);
+
+    Counter.find()
+      .then((data: Array<any>) => {
+        if (data.length === 0) {
+          const newItem = new Counter({ _id: "gameId", seq: 0 });
+          newItem.save();
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
       });
   }
 }
