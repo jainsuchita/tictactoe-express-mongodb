@@ -9,6 +9,7 @@ import { BoardType } from "@models";
 import { isWinner, isDraw } from "@utils";
 import axios from "axios";
 
+const baseURL = process.env.REACT_APP_API_URL;
 /**
  * When a player plays a turn we need to mark that spot on the board.  We then need to
  * switch to the next player
@@ -39,7 +40,7 @@ export const playTurn = (player: number, row: number, col: number) => (
 // Save it to backend
 const saveGameHistory = (player: number) => {
   axios
-    .post("http://localhost:3000/game", {
+    .post(baseURL + "/game", {
       winner: player
     })
 

@@ -9,6 +9,8 @@ import { Appbar, Menu, HistoryDialog, Table } from "@controls";
 import { newGame } from "@state/actions";
 import Axios from "axios";
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -41,7 +43,7 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [rows, setRows] = React.useState();
+  const [rows, setRows] = React.useState<Array<object> | any>([]);
   // const [response, setResponse] = React.useState<Array<object> | null>(null);
   // const [error, setError] = React.useState<any>(null);
 
@@ -79,7 +81,7 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
 
   const showGameHistoryDialog = async () => {
     try {
-      const res = await Axios.get("http://localhost:3000/game");
+      const res = await Axios.get(baseURL + "/game");
       // setResponse(res.data);
       buildDataRows(res.data);
     } catch (err) {

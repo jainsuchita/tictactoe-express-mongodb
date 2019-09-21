@@ -1,25 +1,12 @@
 ## Classic Tic-Tac-Toe game
 
-## Add Redux
+## create .env file
 
----
-
-- Install Dependencies
+add following content
 
 ```bash
-npm install react-redux redux redux-thunk redux-devtools-extension
+REACT_APP_API_URL=<server_host_api>
 ```
-
-- Install dev-dependencies
-
-```bash
-npm install --save-dev @types/react-redux
-```
-
-- Configure Store
-- Add Store in the Main App (index.tsx)
-
----
 
 ## Installation
 
