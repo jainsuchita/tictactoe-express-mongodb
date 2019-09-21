@@ -7,7 +7,6 @@
     "@types/styled-components": "^4.1.19",
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
-    "gh-pages": "^2.1.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-redux": "^7.1.1",
@@ -21,9 +20,7 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "jest --watch",
-    "eject": "react-scripts-ts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
     "@material-ui/core": "^4.4.2",
@@ -56,6 +53,5 @@
     "enzyme"
   ],
   "author": "Suchita Jain",
-  "description": "A classic Tic tac toe game",
-  "homepage": "https://jainsuchita.github.io/tictactoe-express-mongodb/"
+  "description": "A classic Tic tac toe game"
 }
