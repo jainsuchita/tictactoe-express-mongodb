@@ -1,8 +1,11 @@
 import * as express from "express";
 import Game from "../models/Game";
+import Counter from "../models/Counter";
 
 export class GameController {
-  constructor() {}
+  constructor() {
+    this.getNextSequence = this.getNextSequence.bind(this);
+  }
 
   /**
    * Get games from the database
@@ -28,6 +31,15 @@ export class GameController {
     }
   }
 
+  private async getNextSequence(name: string) {
+    const ret = await Counter.findByIdAndUpdate(
+      { _id: name },
+      { $inc: { seq: 1 } }
+    );
+
+    return ret.seq;
+  }
+
   /**
    * Get games from the database
    *  @returns array of games
@@ -44,8 +56,8 @@ export class GameController {
     try {
       const newGame = new Game(req.body);
 
-      // TODO ..
-      newGame.gameId = 2;
+      // Auto Increment the gameId
+      newGame.gameId = await new GameController().getNextSequence("gameId");
 
       // save new game
       await newGame.save();
@@ -95,6 +107,23 @@ export class GameController {
     try {
       await Game.remove({ gameId: req.params.gameId });
       res.status(200).json({ message: "Successfully deleted game!" });
+    } catch (error) {
+      res.status(400).send(`unable to find game ${error}`);
+      next(error);
+    }
+  }
+
+  public async deleteAllGames(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) {
+    console.log(`Request from: ${req.originalUrl}`);
+    console.log(`Request type: ${req.method}`);
+
+    try {
+      await Game.remove({});
+      res.status(200).json({ message: "Successfully deleted all the game!" });
     } catch (error) {
       res.status(400).send(`unable to find game ${error}`);
       next(error);

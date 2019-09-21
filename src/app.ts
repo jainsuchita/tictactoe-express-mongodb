@@ -48,7 +48,8 @@ class App {
       .connect(this.mongoUrl, {
         useUnifiedTopology: true,
         useNewUrlParser: true,
-        useCreateIndex: true
+        useCreateIndex: true,
+        useFindAndModify: true
       })
       .then(() => {
         /** ready to use. The `mongoose.connect()` promise resolves to undefined. */

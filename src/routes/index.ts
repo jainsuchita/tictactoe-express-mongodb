@@ -19,6 +19,8 @@ class Routes {
       // POST endpoint
       .post(this.gameController.saveNewGame);
 
+    // .delete(this.gameController.deleteAllGames);
+
     // Game detail
     app
       .route("/game/:gameId")

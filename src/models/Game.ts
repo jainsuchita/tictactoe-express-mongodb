@@ -20,5 +20,21 @@ export const GameSchema = new Schema({
   // board: []
 });
 
+// GameSchema.pre("save", next => {
+// console.log("fs");
+// let doc: any = this;
+
+//   Counter.findByIdAndUpdate(
+//     { _id: "gameId" },
+//     { $inc: { seq: 1 } },
+//     (error, Counter) => {
+//       if (error) return next(error);
+//       doc.gameId = Counter.seq;
+//       console.log(doc.gameId);
+//       next();
+//     }
+//   );
+// });
+
 const Game = mongoose.model<IGame>("Game", GameSchema);
 export default Game;
