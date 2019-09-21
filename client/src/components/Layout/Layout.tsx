@@ -44,7 +44,7 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
   React.useEffect(() => {
     const FetchData = async () => {
       try {
-        const res = await Axios.get("http://localhost:3000/games");
+        const res = await Axios.get("http://localhost:3000/game");
         // setResponse(res.data);
         buildDataRows(res.data);
       } catch (err) {
@@ -61,7 +61,7 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
       const datacell: Array<any> = [];
 
       Object.keys(d).map(item => {
-        if (item === "gameId" || item === "winnerId") {
+        if (item === "gameId" || item === "winner") {
           datacell.push(d[item]);
         }
       });

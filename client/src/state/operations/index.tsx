@@ -36,11 +36,11 @@ export const playTurn = (player: number, row: number, col: number) => (
   dispatch(switchPlayer(nextPlayer));
 };
 
+// Save it to backend
 const saveGameHistory = (player: number) => {
   axios
     .post("http://localhost:3000/game", {
-      gameId: 1,
-      winnerId: player
+      winner: player
     })
 
     .then((response: any) => {
@@ -52,8 +52,8 @@ const saveGameHistory = (player: number) => {
 };
 
 /**
- * Checks for a winner, if there is one, we dispatch two actions, one for winning the
- * game (winner) and another for gameOver.
+ * Checks for a winner, if there is one, we dispatch three actions, one for winning the
+ * game (winner) and another for gameOver and one for saving the score of the winner.
  * If there isn't a winner, we need to check to see if the game ended in a draw, if so
  * we dispatch the same two actions, but with the player being NONE (0).
  * Finally, do nothing if the above two conditions aren't met.
@@ -78,6 +78,7 @@ export const checkWinner = (board: BoardType, player: number) => (
   } else if (isDraw(board)) {
     dispatch(winner(0));
     dispatch(gameOver());
+    saveGameHistory(0);
   } else {
     hasWinner = false;
   }

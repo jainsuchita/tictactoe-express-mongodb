@@ -1,76 +1,67 @@
 import express from "express";
-import compression from "compression"; // compresses requests
-import session from "express-session";
+import path from "path";
+
+// Database
+import mongoose from "mongoose";
+import { MONGODB_URI } from "./util/secrets";
+
+// Middlewares
 import bodyParser from "body-parser";
-import mongo from "connect-mongo";
+import compression from "compression"; // compresses requests
 import flash from "express-flash";
 import cors from "cors";
-import path from "path";
-import mongoose from "mongoose";
-import bluebird from "bluebird";
-import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
-
-const MongoStore = mongo(session);
 
 // Controllers (route handlers)
-import * as homeController from "./controllers/home";
-import * as gameController from "./controllers/game";
+import Routes from "./routes";
 
-// Create Express server
-const app = express();
+class App {
+  public app: express.Express = express();
+  public controllers: Routes = new Routes();
+  public mongoUrl: string = MONGODB_URI;
 
-// Connect to MongoDB
-const mongoUrl = MONGODB_URI;
-mongoose.Promise = bluebird;
+  constructor() {
+    // Configure application
+    this.config();
 
-mongoose
-  .connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true })
-  .then(() => {
-    /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
-  })
-  .catch(err => {
-    console.log(
-      "MongoDB connection error. Please make sure MongoDB is running. " + err
-    );
-    // process.exit();
-  });
+    // Initialize Database
+    this.mongoSetup();
 
-// Express configuration
-app.set("port", process.env.PORT || 3000);
-app.use(compression());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  session({
-    resave: true,
-    saveUninitialized: true,
-    secret: SESSION_SECRET,
-    store: new MongoStore({
-      url: mongoUrl,
-      autoReconnect: true
-    })
-  })
-);
-app.use(flash());
-app.use(cors());
+    // Initialize Routes
+    this.controllers.routes(this.app);
+  }
 
-app.use(
-  express.static(path.join(__dirname, "../client/build"), {
-    maxAge: 31557600000
-  })
-);
+  private config(): void {
+    this.app.set("port", process.env.PORT || 3000);
+    this.app.use(compression());
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.get('/', function (req, res) {
-//         res.sendFile(path.join(__dirname, "client", "index.html"));
-// });
+    this.app.use(flash());
+    this.app.use(cors());
+    // serving static files
+    this.app.use(express.static(path.join(__dirname, "../client/build")));
+  }
 
-app.get("/", homeController.index);
+  private mongoSetup(): void {
+    mongoose.Promise = global.Promise;
+    mongoose
+      .connect(this.mongoUrl, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useCreateIndex: true
+      })
+      .then(() => {
+        /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
+        console.log("Successfully connected to Database!");
+      })
+      .catch(err => {
+        console.log(
+          " MongoDB connection error. Please make sure MongoDB is running. ",
+          err
+        );
+        // process.exit();
+      });
+  }
+}
 
-// API Endpoints
-app.get("/games", gameController.allGames);
-app.get("/game/:id", gameController.getGame);
-app.post("/game", gameController.addGame);
-// app.put("/game/:id", gameController.updategame);
-// app.delete("/game/:id", gameController.deletegame);
-
-export default app;
+export default new App().app;
