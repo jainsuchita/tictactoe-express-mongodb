@@ -7,7 +7,6 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { Appbar, Menu, HistoryDialog, Table } from "@controls";
 
 import { newGame } from "@state/actions";
-import { IAppState, ScoreHistoryType } from "@models";
 import Axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,12 +25,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ILayoutProps {
   children?: React.ReactNode;
-  scores: ScoreHistoryType;
+  // scores: ScoreHistoryType;
   newGame: () => void;
 }
 
+interface IRows {
+  gameId: number;
+  winner: number;
+}
+
 const Layout: React.FunctionComponent = (props: ILayoutProps) => {
-  const { children, newGame, scores } = props;
+  const { children, newGame } = props;
 
   const classes = useStyles();
 
@@ -41,35 +45,29 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
   // const [response, setResponse] = React.useState<Array<object> | null>(null);
   // const [error, setError] = React.useState<any>(null);
 
-  React.useEffect(() => {
-    const FetchData = async () => {
-      try {
-        const res = await Axios.get("http://localhost:3000/game");
-        // setResponse(res.data);
-        buildDataRows(res.data);
-      } catch (err) {
-        // setError(err);
-        console.log("error - ", err);
-      }
-    };
-    FetchData();
-  }, []);
+  // const reject = (obj: object, keys: Array<string>) => {
+  //   return Object.keys(obj)
+  //     .filter(k => !keys.includes(k))
+  //     .map(k => Object.assign({}, { [k]: obj[k] }))
+  //     .reduce((res, o) => Object.assign(res, o), {});
+  // };
+
+  const pick = (obj: object, keys: Array<string>) => {
+    return keys
+      .map(k => (k in obj ? { [k]: obj[k] } : {}))
+      .reduce((res, o) => Object.assign(res, o), {});
+  };
 
   const buildDataRows = (data: Array<any>) => {
     const rowsArr: Array<any> = [];
     data.map((d: object) => {
-      const datacell: Array<any> = [];
-
-      Object.keys(d).map(item => {
-        if (item === "gameId" || item === "winner") {
-          datacell.push(d[item]);
-        }
-      });
-
+      let datacell: object;
+      datacell = pick(d, ["winner", "gameId"]);
       rowsArr.push(datacell);
     });
+
     const updated = rowsArr.map(arr => {
-      return createData(arr[0], arr[1]);
+      return createData(arr);
     });
 
     setRows(updated);
@@ -79,7 +77,15 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
     setMobileOpen(!mobileOpen);
   };
 
-  const showGameHistoryDialog = () => {
+  const showGameHistoryDialog = async () => {
+    try {
+      const res = await Axios.get("http://localhost:3000/game");
+      // setResponse(res.data);
+      buildDataRows(res.data);
+    } catch (err) {
+      // setError(err);
+      console.log("error - ", err);
+    }
     setDialogOpen(true);
   };
 
@@ -96,15 +102,16 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
     setMobileOpen(false);
   };
 
-  const createData = (game: number, winner: number) => {
+  const createData = (rows: IRows) => {
+    const { gameId, winner } = rows;
     if (winner === 1) {
-      return { game, winner: "Player1" };
+      return { game: gameId, winner: "Player1" };
     } else if (winner === 2) {
-      return { game, winner: "Player2" };
+      return { game: gameId, winner: "Player2" };
     } else if (winner === 0) {
-      return { game, winner: "Draw" };
+      return { game: gameId, winner: "Draw" };
     } else {
-      return { game, winner: "Error" };
+      return { game: gameId, winner: "Error" };
     }
   };
 
@@ -118,7 +125,7 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         handleMenuItemClick={handleMenuItemClick}
-        scores={scores}
+        // scores={scores}
       />
 
       <main className={classes.content}>
@@ -135,17 +142,17 @@ const Layout: React.FunctionComponent = (props: ILayoutProps) => {
   );
 };
 
-const mapStateToProps = (state: IAppState) => {
-  const { scores } = state;
+// const mapStateToProps = (state: IAppState) => {
+//   const { scores } = state;
 
-  return {
-    scores
-  };
-};
+//   return {
+//     scores
+//   };
+// };
 
 const mapDispatchToProps = { newGame };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Layout);

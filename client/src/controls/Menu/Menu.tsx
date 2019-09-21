@@ -15,8 +15,8 @@ import {
   Theme,
   createStyles
 } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import { ScoreHistoryType } from "@models";
+// import Typography from "@material-ui/core/Typography";
+// import { ScoreHistoryType } from "@models";
 
 const drawerWidth = 240;
 
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IMenuProps {
   container?: Element;
   open: boolean;
-  scores: ScoreHistoryType;
+  // scores: ScoreHistoryType;
   onClose: () => void;
   handleMenuItemClick: (key: number) => void;
 }
@@ -47,8 +47,8 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
   container,
   open,
   onClose,
-  handleMenuItemClick,
-  scores
+  handleMenuItemClick
+  // scores
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -56,7 +56,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      {/* <Divider /> */}
+      <Divider />
       <List>
         {["Start New Game", "Game history"].map((text, index) => (
           <React.Fragment key={index}>
@@ -71,7 +71,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
               <ListItemText primary={text} />
             </ListItem>
 
-            {index % 2 !== 0 && (
+            {/* {index % 2 !== 0 && (
               <React.Fragment key={index}>
                 <Divider />
                 <List>
@@ -85,10 +85,11 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
                   ))}
                 </List>
               </React.Fragment>
-            )}
+            )} */}
           </React.Fragment>
         ))}
       </List>
+      <Divider />
     </div>
   );
 

@@ -91,13 +91,15 @@ class Game extends React.Component<IProps, IState> {
             </Grid>
           </Grid>
         </Card>
-        <GameOverDialog
-          open={showDialog}
-          isDraw={draw}
-          player={winner}
-          onClick={this.handleDialogClick}
-          onClose={this.handleDialogClose}
-        />
+        {showDialog && (
+          <GameOverDialog
+            open={showDialog}
+            isDraw={draw}
+            player={winner}
+            onClick={this.handleDialogClick}
+            onClose={this.handleDialogClose}
+          />
+        )}
       </>
     );
   }
