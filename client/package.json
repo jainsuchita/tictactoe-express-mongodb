@@ -5,7 +5,7 @@
   "dependencies": {
     "@types/classnames": "^2.2.9",
     "@types/styled-components": "^4.1.19",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
